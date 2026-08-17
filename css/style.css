@@ -23,6 +23,14 @@ body {
   font: 15px/1.7 var(--sans);
   overflow-x: hidden;
 }
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--soft);
+  outline-offset: 4px;
+}
+button {
+  font: inherit;
+}
 .container {
   width: min(1160px, calc(100% - 44px));
   margin: auto;
@@ -155,6 +163,7 @@ body {
   padding: 7px 3px;
   border: 0;
   background: none;
+  cursor: pointer;
 }
 .menu-toggle span {
   display: block;
@@ -321,13 +330,15 @@ footer a {
 .portrait {
   margin: 0;
   position: relative;
+  width: min(100%, 360px);
+  justify-self: end;
 }
 .portrait img {
   display: block;
   width: 100%;
-  aspect-ratio: 4/5;
+  height: 410px;
   object-fit: cover;
-  object-position: center 20%;
+  object-position: center 18%;
   border-radius: 0 80px 0 80px;
   filter: saturate(0.8);
   transition:
@@ -405,6 +416,7 @@ footer a {
 .build-card,
 .project-grid article,
 .security-flow > div {
+  position: relative;
   display: flex;
   flex-direction: column;
   padding: 25px;
@@ -564,6 +576,36 @@ footer a {
   color: var(--soft);
   font-size: 11px;
 }
+.deliverables {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 35px;
+  margin-top: 35px;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #172533;
+}
+.deliverables h3 {
+  margin-bottom: 0;
+  font-size: 28px;
+}
+.deliverables ul,
+.contact-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.deliverables li {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+}
+.deliverables li::before {
+  content: "\2713";
+  margin-right: 10px;
+  color: var(--blue);
+}
 .notice {
   margin-top: 35px;
   padding: 18px 23px;
@@ -590,6 +632,101 @@ footer a {
   flex-wrap: wrap;
   gap: 10px 26px;
   margin-top: 25px;
+}
+.contact-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  max-width: 760px;
+  margin-top: 30px;
+}
+.contact-steps li {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 15px;
+  border: 1px solid rgba(188, 233, 255, 0.25);
+  border-radius: 8px;
+}
+.contact-steps b {
+  color: var(--blue);
+  font: 500 11px var(--mono);
+}
+.contact-steps span {
+  font-size: 12px;
+}
+
+/* Secondary pages */
+.inner-page {
+  min-height: 100vh;
+}
+.inner-page .site-header {
+  background: rgba(16, 22, 31, 0.94);
+  border-color: var(--line);
+}
+.inner-hero,
+.inner-contact {
+  min-height: calc(100vh - 130px);
+  padding: 150px 0 90px;
+}
+.inner-hero > .container > p:not(.eyebrow) {
+  max-width: 760px;
+  color: var(--muted);
+  font-size: 18px;
+}
+.education-grid,
+.experience-card {
+  display: grid;
+  grid-template-columns: 0.65fr 1fr 1fr;
+  gap: 35px;
+  padding: 32px 0;
+  border-block: 1px solid var(--line);
+}
+.education-year,
+.mono,
+.project-type,
+.card-number {
+  color: var(--blue);
+  font: 500 11px var(--mono);
+  letter-spacing: 0.08em;
+}
+.skills-grid,
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-top: 50px;
+}
+.skill-card,
+.project-card {
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+}
+.skill-card li,
+.responsibilities li {
+  color: var(--muted);
+}
+.contact-links {
+  display: grid;
+  gap: 12px;
+  max-width: 650px;
+  margin-top: 30px;
+}
+.contact-links a {
+  padding: 16px;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  text-decoration: none;
+}
+.inner-page footer .container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 12px;
 }
 .contact-details a {
   padding-bottom: 5px;
@@ -722,7 +859,11 @@ footer {
     gap: 45px;
   }
   .portrait {
-    max-width: 420px;
+    max-width: 340px;
+    justify-self: start;
+  }
+  .portrait img {
+    height: 380px;
   }
   .service-grid,
   .build-grid {
@@ -742,6 +883,10 @@ footer {
   }
   .project-grid {
     grid-template-columns: 1fr 1fr;
+  }
+  .education-grid,
+  .experience-card {
+    grid-template-columns: 1fr;
   }
 }
 @media (max-width: 700px) {
@@ -805,11 +950,22 @@ footer {
   .portrait {
     width: calc(100% - 17px);
   }
+  .portrait img {
+    height: 340px;
+  }
   .service-grid,
   .build-grid,
-  .project-grid {
+  .project-grid,
+  .skills-grid,
+  .projects-grid,
+  .contact-steps,
+  .deliverables {
     grid-template-columns: 1fr;
     margin-top: 38px;
+  }
+  .inner-hero,
+  .inner-contact {
+    padding: 112px 0 70px;
   }
   .service-grid article {
     min-height: 250px;

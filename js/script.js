@@ -35,19 +35,31 @@ window.addEventListener("resize", updateScrollState);
 updateScrollState();
 
 if (menuButton && navMenu) {
-  menuButton.addEventListener("click", () => {
-    const open = navMenu.classList.toggle("open");
+  const setMenuState = (open) => {
+    navMenu.classList.toggle("open", open);
     menuButton.classList.toggle("open", open);
     menuButton.setAttribute("aria-expanded", String(open));
+    menuButton.querySelector(".sr-only").textContent = open
+      ? "Close navigation"
+      : "Open navigation";
+  };
+
+  menuButton.addEventListener("click", () => {
+    setMenuState(!navMenu.classList.contains("open"));
   });
 
   navMenu.querySelectorAll("a").forEach((link) =>
     link.addEventListener("click", () => {
-      navMenu.classList.remove("open");
-      menuButton.classList.remove("open");
-      menuButton.setAttribute("aria-expanded", "false");
+      setMenuState(false);
     }),
   );
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && navMenu.classList.contains("open")) {
+      setMenuState(false);
+      menuButton.focus();
+    }
+  });
 }
 
 if ("IntersectionObserver" in window) {
